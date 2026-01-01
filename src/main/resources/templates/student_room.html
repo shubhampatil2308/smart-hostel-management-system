@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Room - Smart Hostel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 30px auto; padding: 20px; }
+        .card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .info-row { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #eee; }
+        .info-label { font-weight: 600; color: #666; }
+        .btn { padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2>My Room Details</h2>
+            <div th:if="${student?.room}">
+                <div class="info-row">
+                    <span class="info-label">Room Number:</span>
+                    <span th:text="${student.room.roomNumber}"></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Hostel Name:</span>
+                    <span th:text="${student.room.hostelName}"></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Floor:</span>
+                    <span th:text="${student.room.floor}"></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Room Type:</span>
+                    <span th:text="${student.room.roomType}"></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Capacity:</span>
+                    <span th:text="${student.room.capacity}"></span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Monthly Rent:</span>
+                    <span th:text="${'₹' + student.room.rent}"></span>
+                </div>
+            </div>
+            <div th:if="${student?.room == null}">
+                <p style="color: #999; text-align: center; padding: 20px;">No room assigned yet. Please contact the warden.</p>
+            </div>
+        </div>
+        <a href="/student/dashboard" class="btn">Back to Dashboard</a>
+    </div>
+</body>
+</html>
+

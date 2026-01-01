@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mess Menu Management - Smart Hostel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f5f5; }
+        .container { max-width: 1000px; margin: 30px auto; padding: 20px; }
+        .card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .btn { padding: 10px 20px; background: #4facfe; color: white; text-decoration: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2>Mess Menu Management</h2>
+            <a href="/admin/mess-menu/new" class="btn">Add New Menu</a>
+            <div style="margin-top: 20px;">
+                <div th:each="menu : ${menus}" style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                    <strong th:text="${#temporals.format(menu.date, 'EEEE, dd MMMM yyyy')}"></strong>
+                    <p>Breakfast: <span th:text="${menu.breakfast}"></span></p>
+                    <p>Lunch: <span th:text="${menu.lunch}"></span></p>
+                    <p>Dinner: <span th:text="${menu.dinner}"></span></p>
+                </div>
+            </div>
+        </div>
+        <a href="/admin/dashboard" class="btn">Back to Dashboard</a>
+    </div>
+</body>
+</html>
+

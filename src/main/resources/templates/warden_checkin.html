@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Check-In/Check-Out - Smart Hostel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; }
+        .container { max-width: 1000px; margin: 30px auto; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .card h2 { color: #333; margin-bottom: 25px; font-size: 28px; border-bottom: 3px solid #f5576c; padding-bottom: 10px; }
+        .qr-scanner { background: #f8f9fa; padding: 30px; border-radius: 10px; text-align: center; margin: 20px 0; }
+        .btn { padding: 12px 24px; background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%); color: white; text-decoration: none; border-radius: 8px; transition: transform 0.2s; border: none; cursor: pointer; }
+        .btn:hover { transform: translateY(-2px); }
+        input { width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2>Digital Check-In/Check-Out</h2>
+            <div class="qr-scanner">
+                <h3>Scan QR Code</h3>
+                <input type="text" id="qrInput" placeholder="Scan or enter QR code data">
+                <button onclick="processQR()" class="btn">Process Check-In</button>
+            </div>
+            <div style="margin-top: 30px;">
+                <h3>Manual Check-In</h3>
+                <form action="/warden/checkin" method="post">
+                    <input type="text" name="bookingId" placeholder="Enter Booking ID" required>
+                    <button type="submit" class="btn">Check-In</button>
+                </form>
+            </div>
+        </div>
+        <a href="/warden/dashboard" class="btn">Back to Dashboard</a>
+    </div>
+    <script>
+        function processQR() {
+            const qrData = document.getElementById('qrInput').value;
+            if (qrData) {
+                window.location.href = '/warden/checkin/qr?qrData=' + encodeURIComponent(qrData);
+            }
+        }
+    </script>
+</body>
+</html>
+

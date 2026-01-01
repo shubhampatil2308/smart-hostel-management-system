@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Students - Smart Hostel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; }
+        .container { max-width: 1400px; margin: 30px auto; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .card h2 { color: #333; margin-bottom: 25px; font-size: 28px; border-bottom: 3px solid #f5576c; padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%); color: white; font-weight: 600; }
+        tr:hover { background: #f8f9fa; transition: background 0.3s; }
+        .btn { padding: 12px 24px; background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%); color: white; text-decoration: none; border-radius: 8px; display: inline-block; transition: transform 0.2s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4); }
+        .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .status-badge.ACTIVE { background: #d4edda; color: #155724; }
+        .status-badge.INACTIVE { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2>All Students</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Student ID</th>
+                        <th>Course</th>
+                        <th>Department</th>
+                        <th>Room</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="student : ${students}">
+                        <td th:text="${student.user.username}"></td>
+                        <td th:text="${student.user.email}"></td>
+                        <td th:text="${student.user.studentId ?: '-'}"></td>
+                        <td th:text="${student.user.course ?: '-'}"></td>
+                        <td th:text="${student.user.department ?: '-'}"></td>
+                        <td th:text="${student.room?.roomNumber ?: 'Not Assigned'}"></td>
+                        <td>
+                            <span class="status-badge" th:classappend="${student.status}" th:text="${student.status}"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p th:if="${students == null or students.isEmpty()}" style="text-align: center; color: #999; padding: 30px;">No students found.</p>
+        </div>
+        <a href="/warden/dashboard" class="btn">Back to Dashboard</a>
+    </div>
+</body>
+</html>
+

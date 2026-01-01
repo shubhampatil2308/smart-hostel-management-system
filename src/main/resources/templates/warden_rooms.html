@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Rooms - Smart Hostel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); min-height: 100vh; }
+        .container { max-width: 1400px; margin: 30px auto; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .card h2 { color: #333; margin-bottom: 25px; font-size: 28px; border-bottom: 3px solid #f5576c; padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%); color: white; font-weight: 600; }
+        tr:hover { background: #f8f9fa; transition: background 0.3s; }
+        .btn { padding: 12px 24px; background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%); color: white; text-decoration: none; border-radius: 8px; transition: transform 0.2s; box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3); }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2>Manage Rooms</h2>
+            <a href="/warden/rooms/new" class="btn">Add New Room</a>
+            <table style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th>Room Number</th>
+                        <th>Hostel</th>
+                        <th>Floor</th>
+                        <th>Capacity</th>
+                        <th>Occupied</th>
+                        <th>Type</th>
+                        <th>Rent</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="room : ${rooms}">
+                        <td th:text="${room.roomNumber}"></td>
+                        <td th:text="${room.hostelName}"></td>
+                        <td th:text="${room.floor}"></td>
+                        <td th:text="${room.capacity}"></td>
+                        <td th:text="${room.occupied}"></td>
+                        <td th:text="${room.roomType}"></td>
+                        <td th:text="${'₹' + room.rent}"></td>
+                        <td th:text="${room.available ? 'Available' : 'Occupied'}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <a href="/warden/dashboard" class="btn">Back to Dashboard</a>
+    </div>
+</body>
+</html>
+

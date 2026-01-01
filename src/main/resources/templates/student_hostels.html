@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Browse Hostels - Smart Hostel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1400px; margin: 30px auto; padding: 20px; }
+        .filters { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        .filters h3 { margin-bottom: 20px; color: #333; }
+        .filter-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .filter-row input, .filter-row select { padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; }
+        .hostel-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 25px; }
+        .hostel-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .hostel-card:hover { transform: translateY(-5px); box-shadow: 0 12px 35px rgba(0,0,0,0.15); }
+        .hostel-card h3 { color: #667eea; margin-bottom: 15px; }
+        .rating { color: #ffc107; font-weight: bold; }
+        .btn { padding: 10px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; display: inline-block; margin-top: 15px; }
+        .badge { display: inline-block; padding: 5px 10px; border-radius: 15px; font-size: 12px; font-weight: 600; margin: 5px 5px 5px 0; }
+        .badge.recommended { background: #28a745; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="filters">
+            <h3>Search & Filter Hostels</h3>
+            <form method="get" action="/student/hostels">
+                <div class="filter-row">
+                    <input type="text" name="city" placeholder="City" th:value="${city}">
+                    <input type="number" name="maxRent" placeholder="Max Rent (₹)" th:value="${maxRent}">
+                    <select name="roomType">
+                        <option value="">All Room Types</option>
+                        <option value="Single">Single</option>
+                        <option value="Double">Double</option>
+                        <option value="Triple">Triple</option>
+                        <option value="Quad">Quad</option>
+                    </select>
+                    <button type="submit" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer;">Search</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="hostel-grid">
+            <div th:each="hostel : ${hostels}" class="hostel-card">
+                <span th:if="${recommended}" class="badge recommended">⭐ Recommended</span>
+                <h3 th:text="${hostel.name}"></h3>
+                <p><strong>Location:</strong> <span th:text="${hostel.city + ', ' + hostel.state}"></span></p>
+                <p><strong>Rating:</strong> <span class="rating" th:text="${hostel.averageRating + ' ⭐ (' + hostel.totalRatings + ' reviews)'}"></span></p>
+                <p><strong>Available Rooms:</strong> <span th:text="${hostel.availableRooms + '/' + hostel.totalRooms}"></span></p>
+                <p th:if="${hostel.amenities}"><strong>Amenities:</strong> <span th:text="${hostel.amenities}"></span></p>
+                <div style="margin-top: 15px;">
+                    <a th:href="@{/student/hostels/{id}/book(id=${hostel.id})}" class="btn">Book Now</a>
+                    <a th:href="@{/student/ratings?hostelId={id}(id=${hostel.id})}" class="btn" style="background: #6c757d; margin-left: 10px;">View Reviews</a>
+                </div>
+            </div>
+        </div>
+        <p th:if="${hostels == null or hostels.isEmpty()}" style="text-align: center; color: white; padding: 40px; font-size: 18px;">No hostels found matching your criteria.</p>
+    </div>
+</body>
+</html>
+

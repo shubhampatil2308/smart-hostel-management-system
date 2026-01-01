@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Payments - Smart Hostel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f5f5; }
+        .container { max-width: 1000px; margin: 30px auto; padding: 20px; }
+        .card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: #f8f9fa; }
+        .status { padding: 5px 10px; border-radius: 15px; font-size: 12px; }
+        .status.completed { background: #d4edda; color: #155724; }
+        .status.pending { background: #fff3cd; color: #856404; }
+        .status.failed { background: #f8d7da; color: #721c24; }
+        .btn { padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2>My Payment History</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Payment Type</th>
+                        <th>Amount</th>
+                        <th>Payment Method</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Transaction ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="payment : ${payments}">
+                        <td th:text="${payment.paymentType}"></td>
+                        <td th:text="${'₹' + payment.amount}"></td>
+                        <td th:text="${payment.paymentMethod}"></td>
+                        <td>
+                            <span class="status" 
+                                  th:classappend="${payment.status == 'COMPLETED'} ? 'completed' : (${payment.status == 'FAILED'} ? 'failed' : 'pending')"
+                                  th:text="${payment.status}"></span>
+                        </td>
+                        <td th:text="${#temporals.format(payment.paymentDate, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${payment.transactionId ?: '-'}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p th:if="${payments == null or payments.isEmpty()}" style="text-align: center; color: #999; padding: 20px;">No payment records found.</p>
+        </div>
+        <a href="/student/dashboard" class="btn">Back to Dashboard</a>
+    </div>
+</body>
+</html>
+

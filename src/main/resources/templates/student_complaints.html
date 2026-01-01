@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Complaints - Smart Hostel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 30px auto; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .card h2 { color: #333; margin-bottom: 25px; font-size: 28px; border-bottom: 3px solid #667eea; padding-bottom: 10px; }
+        .btn { padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; display: inline-block; transition: transform 0.2s; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4); }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-weight: 600; }
+        tr:hover { background: #f8f9fa; transition: background 0.3s; }
+        .status { padding: 5px 10px; border-radius: 15px; font-size: 12px; }
+        .status.pending { background: #fff3cd; color: #856404; }
+        .status.resolved { background: #d4edda; color: #155724; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2>My Complaints</h2>
+            <a href="/student/complaints/new" class="btn">Submit New Complaint</a>
+            <table style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Response</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="complaint : ${complaints}">
+                        <td th:text="${complaint.subject}"></td>
+                        <td th:text="${complaint.category}"></td>
+                        <td>
+                            <span class="status" 
+                                  th:classappend="${complaint.status == 'RESOLVED'} ? 'resolved' : 'pending'"
+                                  th:text="${complaint.status}"></span>
+                        </td>
+                        <td th:text="${#temporals.format(complaint.createdAt, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${complaint.response ?: 'No response yet'}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <a href="/student/dashboard" class="btn">Back to Dashboard</a>
+    </div>
+</body>
+</html>
+

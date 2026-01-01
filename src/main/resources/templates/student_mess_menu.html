@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mess Menu - Smart Hostel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f5f5; }
+        .container { max-width: 1000px; margin: 30px auto; padding: 20px; }
+        .card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .menu-item { margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; }
+        .menu-date { font-weight: 600; color: #667eea; margin-bottom: 10px; }
+        .meal { margin: 10px 0; }
+        .meal-label { font-weight: 600; color: #555; }
+        .btn { padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2>Mess Menu</h2>
+            <div th:each="menu : ${menus}" class="menu-item">
+                <div class="menu-date" th:text="${#temporals.format(menu.date, 'EEEE, dd MMMM yyyy')}"></div>
+                <div class="meal">
+                    <span class="meal-label">Breakfast:</span>
+                    <span th:text="${menu.breakfast}"></span>
+                </div>
+                <div class="meal">
+                    <span class="meal-label">Lunch:</span>
+                    <span th:text="${menu.lunch}"></span>
+                </div>
+                <div class="meal">
+                    <span class="meal-label">Dinner:</span>
+                    <span th:text="${menu.dinner}"></span>
+                </div>
+                <div class="meal" th:if="${menu.snacks}">
+                    <span class="meal-label">Snacks:</span>
+                    <span th:text="${menu.snacks}"></span>
+                </div>
+            </div>
+            <p th:if="${menus == null or menus.isEmpty()}" style="text-align: center; color: #999; padding: 20px;">No menu available yet.</p>
+        </div>
+        <a href="/student/dashboard" class="btn">Back to Dashboard</a>
+    </div>
+</body>
+</html>
+

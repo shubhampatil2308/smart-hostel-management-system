@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hostel Recommendations - Smart Hostel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 30px auto; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .card h2 { color: #333; margin-bottom: 25px; font-size: 28px; border-bottom: 3px solid #667eea; padding-bottom: 10px; }
+        .hostel-card { background: #f8f9fa; padding: 25px; border-radius: 10px; margin-bottom: 20px; border-left: 4px solid #667eea; }
+        .hostel-card h3 { color: #667eea; margin-bottom: 15px; }
+        .rating { color: #ffc107; font-size: 18px; }
+        .btn { padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; transition: transform 0.2s; }
+        .btn:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2>AI-Powered Hostel Recommendations</h2>
+            <div th:each="hostel : ${recommendations}" class="hostel-card">
+                <h3 th:text="${hostel.name}"></h3>
+                <p><strong>Location:</strong> <span th:text="${hostel.city + ', ' + hostel.state}"></span></p>
+                <p><strong>Rating:</strong> <span class="rating" th:text="${'★'.repeat(hostel.averageRating.intValue())}"></span> 
+                   <span th:text="${hostel.averageRating + ' (' + hostel.totalRatings + ' reviews)'}"></span></p>
+                <p><strong>Available Rooms:</strong> <span th:text="${hostel.availableRooms}"></span></p>
+                <p th:text="${hostel.description}"></p>
+                <a th:href="@{/student/bookings/new?hostelId={id}(id=${hostel.id})}" class="btn">Book Now</a>
+            </div>
+            <p th:if="${recommendations == null or recommendations.isEmpty()}" style="text-align: center; color: #999; padding: 30px;">No recommendations available.</p>
+        </div>
+        <a href="/student/dashboard" class="btn">Back to Dashboard</a>
+    </div>
+</body>
+</html>
+

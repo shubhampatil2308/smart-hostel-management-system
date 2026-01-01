@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Bookings - Smart Hostel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 30px auto; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .card h2 { color: #333; margin-bottom: 25px; font-size: 28px; border-bottom: 3px solid #667eea; padding-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-weight: 600; }
+        tr:hover { background: #f8f9fa; transition: background 0.3s; }
+        .btn { padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; transition: transform 0.2s; }
+        .btn:hover { transform: translateY(-2px); }
+        .status { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .status.PENDING { background: #fff3cd; color: #856404; }
+        .status.CONFIRMED { background: #d4edda; color: #155724; }
+        .status.COMPLETED { background: #cfe2ff; color: #084298; }
+        .qr-code { max-width: 150px; height: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h2>My Bookings</h2>
+            <a href="/student/bookings/new" class="btn">New Booking</a>
+            <a href="/student/recommendations" class="btn" style="margin-left: 10px;">Get Recommendations</a>
+            <table style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th>Hostel</th>
+                        <th>Room</th>
+                        <th>Check-In</th>
+                        <th>Check-Out</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>QR Code</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="booking : ${bookings}">
+                        <td th:text="${booking.hostel?.name}"></td>
+                        <td th:text="${booking.room?.roomNumber}"></td>
+                        <td th:text="${#temporals.format(booking.checkInDate, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(booking.checkOutDate, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${'₹' + booking.totalAmount}"></td>
+                        <td>
+                            <span class="status" th:classappend="${booking.status}" th:text="${booking.status}"></span>
+                        </td>
+                        <td>
+                            <img th:if="${booking.qrCode}" th:src="${booking.qrCode}" alt="QR Code" class="qr-code">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <p th:if="${bookings == null or bookings.isEmpty()}" style="text-align: center; color: #999; padding: 30px;">No bookings yet.</p>
+        </div>
+        <a href="/student/dashboard" class="btn">Back to Dashboard</a>
+    </div>
+</body>
+</html>
